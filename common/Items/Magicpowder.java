@@ -1,4 +1,5 @@
 package Items;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
@@ -12,6 +13,6 @@ public class Magicpowder extends Item {
 
 	@Override
 	public String getTextureFile() {
-		return "/Tutorial/Items.png";
+		return "/MOG_resources/Items.png";
 	}
 }

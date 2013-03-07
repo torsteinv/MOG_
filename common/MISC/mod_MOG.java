@@ -24,6 +24,7 @@ import Items.Rune;
 import Items.Staff;
 import Items.StaffExplosion;
 import Items.StaffFire;
+import Items.StaffLightball;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
@@ -39,13 +40,14 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(modid = "MagicSwords", name = "Magic Swords", version = "1.0.0")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
-public class mod_lawl {
+public class mod_MOG {
 
 	public static int MagicCauldronRenderingID = 500;
 	public static int GodstoneID = 500, MagicCauldronID = 501,
 			RuneFocusID = 502;
 	public static int MagicpowderID = 500, GodswordID = 501, RuneID = 506,
-			StaffID = 591, FireStaffID = 592, ExplosionStaffID = 593;
+			StaffID = 591, FireStaffID = 592, ExplosionStaffID = 593,
+			LightballStaffID = 594;
 	public static int KnockbackID = 21, FieryBladeID = 22, MarkerID = 23,
 			MarkedID = 24, SlowerID = 25;
 
@@ -65,6 +67,7 @@ public class mod_lawl {
 	public static Item BasicStaff;
 	public static Item FireStaff;
 	public static Item ExplosionStaff;
+	public static Item LightballStaff;
 
 	// Initialize MISC
 
@@ -73,7 +76,7 @@ public class mod_lawl {
 	public static CreativeTabs staffTab;
 
 	@Instance
-	public static mod_lawl instance = new mod_lawl();
+	public static mod_MOG instance = new mod_MOG();
 
 	public static HashMap<String, String> RuneKeys = new HashMap<String, String>();
 	public static HashMap<Integer, Item> RuneItems = new HashMap<Integer, Item>();
@@ -122,6 +125,8 @@ public class mod_lawl {
 				.setIconIndex(8);
 		ExplosionStaff = new StaffExplosion(ExplosionStaffID).setItemName(
 				"explosionstaff").setIconIndex(8);
+		LightballStaff = new StaffLightball(LightballStaffID).setItemName(
+				"lightballstaff").setIconIndex(9);
 
 		int itr = 0;
 		for (int i = 1; i <= 4; i++) {
@@ -145,6 +150,9 @@ public class mod_lawl {
 		}
 
 		// Register Blocks/Fuels/Generation
+		GameRegistry.registerBlock(Godstone, "godstone");
+		GameRegistry.registerBlock(MagicCauldron, "magicCauldron");
+		GameRegistry.registerBlock(RuneFocus, "runeFocus");
 		GameRegistry.registerTileEntity(TileEntityMagicCauldron.class,
 				"magicCauldronBlock");
 		GameRegistry.registerFuelHandler(new TutorialFuel());
@@ -162,6 +170,7 @@ public class mod_lawl {
 		LanguageRegistry.addName(BasicStaff, "Staff");
 		LanguageRegistry.addName(FireStaff, "Staff of Fire");
 		LanguageRegistry.addName(ExplosionStaff, "Staff of Explosions");
+		LanguageRegistry.addName(LightballStaff, "Staff of Light");
 
 		LanguageRegistry.instance().addStringLocalization(
 				PotionEffects.Knockback.getName(), "Knockback");
@@ -182,7 +191,7 @@ public class mod_lawl {
 				"itemGroup." + staffTab.getTabLabel(), "Staffs and stuff");
 
 		LanguageRegistry.addName(Godstone, "Gawdstone");
-		LanguageRegistry.addName(MagicCauldron, "why is this in your hand?!?");
+		LanguageRegistry.addName(MagicCauldron, "Magic cauldron");
 		LanguageRegistry.addName(RuneFocus, "Rune Focus");
 
 		// Crafting recipes

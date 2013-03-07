@@ -26,7 +26,7 @@ public class WorldGeneratorTutorial implements IWorldGenerator {
 			int Zcoord = z + random.nextInt(16);
 			int Ycoord = random.nextInt(16);
 
-			new WorldGenMinable(mod_lawl.Godstone.blockID, 10).generate(world,
+			new WorldGenMinable(mod_MOG.Godstone.blockID, 10).generate(world,
 					random, Xcoord, Ycoord, Zcoord);
 		}
 	}

@@ -15,7 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import MISC.TileEntityMagicCauldron;
-import MISC.mod_lawl;
+import MISC.mod_MOG;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -85,7 +85,7 @@ public class BlockMagicCauldron extends BlockContainer {
 	 */
 	@Override
 	public int getRenderType() {
-		return mod_lawl.MagicCauldronRenderingID;
+		return mod_MOG.MagicCauldronRenderingID;
 	}
 
 	/**

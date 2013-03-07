@@ -1,5 +1,5 @@
 package CreativeTabs;
-import MISC.mod_lawl;
+import MISC.mod_MOG;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
@@ -11,7 +11,7 @@ public class StaffTab extends CreativeTabs {
 
 	@Override
 	public Item getTabIconItem() {
-		return mod_lawl.BasicStaff;
+		return mod_MOG.BasicStaff;
 	}
 
 }

@@ -1,16 +1,16 @@
 package Items;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntitySmallFireball;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import Entities.EntityLightball;
 import MISC.mod_MOG;
 
-public class StaffFire extends Item {
+public class StaffLightball extends Item {
 
-	public StaffFire(int par1) {
+	public StaffLightball(int par1) {
 		super(par1);
 		this.setCreativeTab(mod_MOG.staffTab);
 	}
@@ -23,9 +23,11 @@ public class StaffFire extends Item {
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world,
 			EntityPlayer player) {
-		if (takePowder(player)) {
-			EntitySmallFireball fb = new EntitySmallFireball(world, player, 1,
-					1, 1);
+		if (hasPowder(player, 1)
+				&& hasItem(Item.lightStoneDust.itemID, player, 1)) {
+			takePowder(player);
+			takeItemSingle(Item.lightStoneDust.itemID, player);
+			EntityLightball fb = new EntityLightball(world, player, 1, 1, 1);
 			Vec3 look = player.getLookVec();
 			fb.setPosition(player.posX + look.xCoord * 1.5, player.posY
 					+ look.yCoord * 1.5 + 1, player.posZ + look.zCoord * 1.5);
@@ -35,6 +37,30 @@ public class StaffFire extends Item {
 			world.spawnEntityInWorld(fb);
 		}
 		return itemStack;
+	}
+
+	public boolean hasItem(int type, EntityPlayer player, int amount) {
+		return player.inventory.hasItemStack(new ItemStack(type, amount, 0));
+	}
+
+	public boolean hasPowder(EntityPlayer player, int amount) {
+		return hasItem(mod_MOG.MagicpowderID, player, amount);
+	}
+
+	public boolean takeItem(int type, EntityPlayer player, int amount) {
+		for (int i = 0; i < amount; i++) {
+			if (!takeItemSingle(type, player)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public boolean takeItemSingle(int type, EntityPlayer player) {
+		if (player.capabilities.isCreativeMode) {
+			return true;
+		}
+		return player.inventory.consumeInventoryItem(type);
 	}
 
 	public int takeMultiplePowder(int amount, EntityPlayer p) {

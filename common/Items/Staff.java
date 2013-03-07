@@ -6,18 +6,18 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import MISC.TileEntityMagicCauldron;
-import MISC.mod_lawl;
+import MISC.mod_MOG;
 
 public class Staff extends Item {
 
 	public Staff(int par1) {
 		super(par1);
-		this.setCreativeTab(mod_lawl.staffTab);
+		this.setCreativeTab(mod_MOG.staffTab);
 	}
 
 	@Override
 	public String getTextureFile() {
-		return "/Tutorial/Items.png";
+		return "/MOG_resources/Items.png";
 	}
 
 	@Override
@@ -29,21 +29,21 @@ public class Staff extends Item {
 
 		if (clicked == Block.cauldron.blockID) {
 			world.setBlockAndMetadataWithNotify(x, y, z,
-					mod_lawl.MagicCauldronID, metadata);
-		} else if (clicked == mod_lawl.MagicCauldronID) {
+					mod_MOG.MagicCauldronID, metadata);
+		} else if (clicked == mod_MOG.MagicCauldronID) {
 			int[] el = ((TileEntityMagicCauldron) world.getBlockTileEntity(x,
 					y, z)).el;
 
 			if (el[0] == 0) {
 				return true;
 			}
-			Item i = mod_lawl.RuneItems.get(el[0] + el[1] * 10 + el[2] * 100);
-			ItemStack is = new ItemStack(i == null ? mod_lawl.BasicRune : i);
+			Item i = mod_MOG.RuneItems.get(el[0] + el[1] * 10 + el[2] * 100);
+			ItemStack is = new ItemStack(i == null ? mod_MOG.BasicRune : i);
 			((TileEntityMagicCauldron) world.getBlockTileEntity(x, y, z))
 					.clear();
 			player.inventory.addItemStackToInventory(is);
 
-			world.notifyBlockChange(x, y, z, mod_lawl.MagicCauldronID);
+			world.notifyBlockChange(x, y, z, mod_MOG.MagicCauldronID);
 
 		}
 		return true;

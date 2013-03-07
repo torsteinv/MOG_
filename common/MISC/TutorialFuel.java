@@ -6,7 +6,7 @@ public class TutorialFuel implements IFuelHandler {
 
 	@Override
 	public int getBurnTime(ItemStack fuel) {
-		if (fuel.itemID == mod_lawl.Magicpowder.itemID) {
+		if (fuel.itemID == mod_MOG.Magicpowder.itemID) {
 			return 1000;
 		}
 		return 0;

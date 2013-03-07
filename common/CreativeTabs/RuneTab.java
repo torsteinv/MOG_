@@ -1,5 +1,5 @@
 package CreativeTabs;
-import MISC.mod_lawl;
+import MISC.mod_MOG;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
@@ -11,7 +11,7 @@ public class RuneTab extends CreativeTabs {
 
 	@Override
 	public ItemStack getIconItemStack() {
-		return new ItemStack(mod_lawl.BasicRune);
+		return new ItemStack(mod_MOG.BasicRune);
 	}
 
 }

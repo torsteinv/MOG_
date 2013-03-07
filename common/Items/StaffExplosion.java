@@ -1,22 +1,23 @@
 package Items;
-import MISC.mod_lawl;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityLargeFireball;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import MISC.mod_MOG;
 
 public class StaffExplosion extends Item {
 
 	public StaffExplosion(int par1) {
 		super(par1);
-		this.setCreativeTab(mod_lawl.staffTab);
+		this.setCreativeTab(mod_MOG.staffTab);
 	}
 
 	@Override
 	public String getTextureFile() {
-		return "/Tutorial/Items.png";
+		return "/MOG_resources/Items.png";
 	}
 
 	@Override
@@ -49,6 +50,6 @@ public class StaffExplosion extends Item {
 		if (p.capabilities.isCreativeMode) {
 			return true;
 		}
-		return p.inventory.consumeInventoryItem(mod_lawl.MagicpowderID + 256);
+		return p.inventory.consumeInventoryItem(mod_MOG.MagicpowderID + 256);
 	}
 }

@@ -2,14 +2,13 @@ package Blocks;
 
 import java.util.HashMap;
 
-import MISC.mod_lawl;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import MISC.mod_MOG;
 
 public class BlockRuneFocus extends Block {
 
@@ -26,7 +25,6 @@ public class BlockRuneFocus extends Block {
 			ItemAssosiations.put(Block.netherrack.blockID, 1);
 			ItemAssosiations.put(Item.flintAndSteel.itemID, 1);
 			ItemAssosiations.put(Item.dyePowder.itemID + 10000 * 4, 4);// lapiz
-																		// lasuli
 			ItemAssosiations.put(Item.bucketWater.itemID, 4);
 			ItemAssosiations.put(Block.ice.blockID, 4);
 			ItemAssosiations.put(Item.snowball.itemID, 4);
@@ -43,7 +41,7 @@ public class BlockRuneFocus extends Block {
 
 	public BlockRuneFocus(int par1) {
 		super(par1, 2, Material.rock);
-		this.setCreativeTab(mod_lawl.machinesTab);
+		this.setCreativeTab(mod_MOG.machinesTab);
 		define();
 	}
 
@@ -54,7 +52,7 @@ public class BlockRuneFocus extends Block {
 
 	@Override
 	public String getTextureFile() {
-		return "/Tutorial/Blocks.png";
+		return "/MOG_resources/Blocks.png";
 	}
 
 	@Override
@@ -69,7 +67,7 @@ public class BlockRuneFocus extends Block {
 		if (aspect == 5) {
 			return true;
 		}
-		Item it = mod_lawl.RuneItems.get(aspect);
+		Item it = mod_MOG.RuneItems.get(aspect);
 		if (it == null) {
 			return true;
 		}
