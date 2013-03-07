@@ -1,4 +1,5 @@
 package MISC;
+
 import java.util.HashMap;
 
 import net.minecraft.block.Block;
@@ -77,7 +78,7 @@ public class mod_lawl {
 	public static HashMap<String, String> RuneKeys = new HashMap<String, String>();
 	public static HashMap<Integer, Item> RuneItems = new HashMap<Integer, Item>();
 
-	@SidedProxy(clientSide = "Tutorial.Client.ClientProxyTutorial", serverSide = "Tutorial.Common.CommonProxyTutorial")
+	@SidedProxy(clientSide = "MISC.ClientProxyTutorial", serverSide = "MISC.CommonProxyTutorial")
 	public static ClientProxyTutorial proxy = new ClientProxyTutorial();
 
 	// Materials
