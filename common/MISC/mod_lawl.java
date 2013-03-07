@@ -127,7 +127,6 @@ public class mod_lawl {
 		for (int i = 1; i <= 4; i++) {
 			for (int j = 0; j <= 4; j++) {
 				for (int k = 0; k <= 4; k = j == 0 ? 6 : k + 1) {
-					System.out.println(i + " " + j + " " + k);
 					RuneItems.put(
 							i + j * 10 + k * 100,
 							new Rune(RuneID + 1 + itr, false)
