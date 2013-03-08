@@ -28,7 +28,7 @@ public class StaffExplosion extends Item {
 					1, 1);
 			Vec3 look = player.getLookVec();
 			fb.setPosition(player.posX + look.xCoord * 1.5, player.posY
-					+ look.yCoord * 1.5 + 1, player.posZ + look.zCoord * 1.5);
+					+ look.yCoord * 1.5 + 1.5, player.posZ + look.zCoord * 1.5);
 			fb.accelerationX = look.xCoord * 0.1;
 			fb.accelerationY = look.yCoord * 0.1;
 			fb.accelerationZ = look.zCoord * 0.1;

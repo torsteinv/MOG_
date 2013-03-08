@@ -23,28 +23,33 @@ public class StaffLightball extends Item {
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world,
 			EntityPlayer player) {
-		if (hasPowder(player, 1)
-				&& hasItem(Item.lightStoneDust.itemID, player, 1)) {
-			takePowder(player);
-			takeItemSingle(Item.lightStoneDust.itemID, player);
+		if (takeItemSingle(Item.lightStoneDust.itemID, player)) {
+			if (!takePowder(player)) {
+				player.inventory.addItemStackToInventory(new ItemStack(
+						Item.lightStoneDust, 1));
+				return itemStack;
+			}
 			EntityLightball fb = new EntityLightball(world, player, 1, 1, 1);
 			Vec3 look = player.getLookVec();
 			fb.setPosition(player.posX + look.xCoord * 1.5, player.posY
-					+ look.yCoord * 1.5 + 1, player.posZ + look.zCoord * 1.5);
+					+ look.yCoord * 1.5 + 1.5, player.posZ + look.zCoord * 1.5);
 			fb.accelerationX = look.xCoord * 0.1;
 			fb.accelerationY = look.yCoord * 0.1;
 			fb.accelerationZ = look.zCoord * 0.1;
+			fb.index = 0;
 			world.spawnEntityInWorld(fb);
 		}
 		return itemStack;
 	}
 
 	public boolean hasItem(int type, EntityPlayer player, int amount) {
-		return player.inventory.hasItemStack(new ItemStack(type, amount, 0));
+		return player.inventory.hasItemStack(new ItemStack(type, amount, 0))
+				|| player.capabilities.isCreativeMode;
 	}
 
 	public boolean hasPowder(EntityPlayer player, int amount) {
-		return hasItem(mod_MOG.MagicpowderID, player, amount);
+		return hasItem(mod_MOG.MagicpowderID, player, amount)
+				|| player.capabilities.isCreativeMode;
 	}
 
 	public boolean takeItem(int type, EntityPlayer player, int amount) {

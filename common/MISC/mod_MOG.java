@@ -6,18 +6,25 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.EnumHelper;
+
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
 import Blocks.BlockGodstone;
 import Blocks.BlockMagicCauldron;
 import Blocks.BlockRuneFocus;
 import CreativeTabs.MachineTab;
 import CreativeTabs.RuneTab;
 import CreativeTabs.StaffTab;
+import Entities.EntitySpell;
 import Items.Godsword;
 import Items.Magicpowder;
 import Items.Rune;
@@ -38,13 +45,15 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = "MagicSwords", name = "Magic Swords", version = "1.0.0")
+@Mod(modid = "MagicsOfGod", name = "Magics of God", version = "1.0.0")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class mod_MOG {
 
-	public static int MagicCauldronRenderingID = 500;
+	public static int EntityLightballID = 1;
+	public static int MagicCauldronRenderingID = 500,
+			MagicLightRenderingID = 501;
 	public static int GodstoneID = 500, MagicCauldronID = 501,
-			RuneFocusID = 502;
+			RuneFocusID = 502, MagicLightID = 503;
 	public static int MagicpowderID = 500, GodswordID = 501, RuneID = 506,
 			StaffID = 591, FireStaffID = 592, ExplosionStaffID = 593,
 			LightballStaffID = 594;
@@ -55,6 +64,7 @@ public class mod_MOG {
 	public static Block Godstone;
 	public static Block MagicCauldron;
 	public static Block RuneFocus;
+	public static Block MagicLight;
 
 	// Initialize Items
 	public static Item Magicpowder;
@@ -98,6 +108,9 @@ public class mod_MOG {
 		// Declare Blocks
 		Godstone = new BlockGodstone(GodstoneID, 0).setBlockName("Godstone")
 				.setHardness(1F).setResistance(5F).setLightValue(1F);
+		MagicLight = new BlockGodstone(MagicLightID, 0)
+				.setBlockName("magicLight").setHardness(0.1F).setResistance(1F)
+				.setLightValue(2F);
 		MagicCauldron = new BlockMagicCauldron(MagicCauldronID)
 				.setHardness(2.0F).setBlockName("magicCauldron")
 				.setRequiresSelfNotify();
@@ -150,9 +163,10 @@ public class mod_MOG {
 		}
 
 		// Register Blocks/Fuels/Generation
-		GameRegistry.registerBlock(Godstone, "godstone");
-		GameRegistry.registerBlock(MagicCauldron, "magicCauldron");
-		GameRegistry.registerBlock(RuneFocus, "runeFocus");
+		GameRegistry.registerBlock(Godstone, "MagicsOfGod");
+		GameRegistry.registerBlock(MagicCauldron, "MagicsOfGod");
+		GameRegistry.registerBlock(RuneFocus, "MagicsOfGod");
+		GameRegistry.registerBlock(MagicLight, "MagicsOfGod");
 		GameRegistry.registerTileEntity(TileEntityMagicCauldron.class,
 				"magicCauldronBlock");
 		GameRegistry.registerFuelHandler(new TutorialFuel());
@@ -193,6 +207,7 @@ public class mod_MOG {
 		LanguageRegistry.addName(Godstone, "Gawdstone");
 		LanguageRegistry.addName(MagicCauldron, "Magic cauldron");
 		LanguageRegistry.addName(RuneFocus, "Rune Focus");
+		LanguageRegistry.addName(MagicLight, "Magic Light");
 
 		// Crafting recipes
 		GameRegistry.addShapelessRecipe(new ItemStack(BasicRune, 2),
@@ -212,6 +227,47 @@ public class mod_MOG {
 		GameRegistry.addSmelting(GodstoneID, new ItemStack(Magicpowder, 16), 0);
 
 		// Rendering
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpell.class,
+				new Render() {
+
+					@Override
+					public void doRender(Entity par1, double par2, double par4,
+							double par6, float par8, float par9) {
+						GL11.glPushMatrix();
+						GL11.glTranslatef((float) par2, (float) par4,
+								(float) par6);
+						GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+						short var11 = (short) ((EntitySpell) par1).index;
+						this.loadTexture("/MOG_resources/Entities.png");
+						Tessellator var12 = Tessellator.instance;
+						float var13 = (var11 % 16 * 16 + 0) / 256.0F;
+						float var14 = (var11 % 16 * 16 + 16) / 256.0F;
+						float var15 = (var11 / 16 * 16 + 0) / 256.0F;
+						float var16 = (var11 / 16 * 16 + 16) / 256.0F;
+						float var17 = 1.0F;
+						float var18 = 0.5F;
+						float var19 = 0.25F;
+						GL11.glRotatef(180.0F - this.renderManager.playerViewY,
+								0.0F, 1.0F, 0.0F);
+						GL11.glRotatef(-this.renderManager.playerViewX, 1.0F,
+								0.0F, 0.0F);
+						var12.startDrawingQuads();
+						var12.setNormal(0.0F, 1.0F, 0.0F);
+						var12.addVertexWithUV(0.0F - var18, 0.0F - var19, 0.0D,
+								var13, var16);
+						var12.addVertexWithUV(var17 - var18, 0.0F - var19,
+								0.0D, var14, var16);
+						var12.addVertexWithUV(var17 - var18, 1.0F - var19,
+								0.0D, var14, var15);
+						var12.addVertexWithUV(0.0F - var18, 1.0F - var19, 0.0D,
+								var13, var15);
+						var12.draw();
+						GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+						GL11.glPopMatrix();
+					}
+
+				});
+
 		RenderingRegistry.registerBlockHandler(MagicCauldronRenderingID,
 				new ISimpleBlockRenderingHandler() {
 
@@ -284,6 +340,71 @@ public class mod_MOG {
 					@Override
 					public int getRenderId() {
 						return MagicCauldronRenderingID;
+					}
+
+				});
+
+		RenderingRegistry.registerBlockHandler(MagicCauldronRenderingID,
+				new ISimpleBlockRenderingHandler() {
+
+					@Override
+					public void renderInventoryBlock(Block block, int metadata,
+							int modelID, RenderBlocks renderer) {
+
+					}
+
+					@Override
+					public boolean renderWorldBlock(IBlockAccess world, int x,
+							int y, int z, Block block, int modelId,
+							RenderBlocks renderer) {
+
+						renderer.renderStandardBlock(block, x, y, z);
+						Tessellator var5 = Tessellator.instance;
+						var5.setBrightness(block.getMixedBrightnessForBlock(
+								renderer.blockAccess, x, y, z));
+						float var6 = 1.0F;
+						int var7 = block.colorMultiplier(renderer.blockAccess,
+								x, y, z);
+						float var8 = (var7 >> 16 & 255) / 255.0F;
+						float var9 = (var7 >> 8 & 255) / 255.0F;
+						float var10 = (var7 & 255) / 255.0F;
+						float var12;
+
+						if (EntityRenderer.anaglyphEnable) {
+							float var11 = (var8 * 30.0F + var9 * 59.0F + var10 * 11.0F) / 100.0F;
+							var12 = (var8 * 30.0F + var9 * 70.0F) / 100.0F;
+							float var13 = (var8 * 30.0F + var10 * 70.0F) / 100.0F;
+							var8 = var11;
+							var9 = var12;
+							var10 = var13;
+						}
+
+						var5.setColorOpaque_F(var6 * var8, var6 * var9, var6
+								* var10);
+						short var16 = 0;
+						renderer.renderSouthFace(block, x - 1.0F + var12, y, z,
+								var16);
+						renderer.renderNorthFace(block, x + 1.0F - var12, y, z,
+								var16);
+						renderer.renderWestFace(block, x, y, z - 1.0F + var12,
+								var16);
+						renderer.renderEastFace(block, x, y, z + 1.0F - var12,
+								var16);
+						renderer.renderTopFace(block, x, y - 1.0F + 0.25F, z,
+								var17);
+						renderer.renderBottomFace(block, x, y + 1.0F - 0.75F,
+								z, var17);
+						return true;
+					}
+
+					@Override
+					public boolean shouldRender3DInInventory() {
+						return false;
+					}
+
+					@Override
+					public int getRenderId() {
+						return MagicLightRenderingID;
 					}
 
 				});

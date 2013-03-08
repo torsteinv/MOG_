@@ -8,6 +8,7 @@ public class ClientProxyTutorial extends CommonProxyTutorial {
 		MinecraftForgeClient.preloadTexture("/MOG_resources/Blocks.png");
 		MinecraftForgeClient.preloadTexture("/MOG_resources/Items.png");
 		MinecraftForgeClient.preloadTexture("/MOG_resources/Aspects.png");
+		MinecraftForgeClient.preloadTexture("/MOG_resources/Entities.png");
 	}
 
 }

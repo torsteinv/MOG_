@@ -32,7 +32,7 @@ public class EntityLightball extends EntitySpell {
 			if (par1MovingObjectPosition.entityHit != null) {
 				if (!par1MovingObjectPosition.entityHit.isImmuneToFire()
 						&& par1MovingObjectPosition.entityHit.attackEntityFrom(
-								DamageSource.causeFireballDamage(this,
+								DamageSource.causeIndirectMagicDamage(this,
 										this.shootingEntity), 5)) {
 					par1MovingObjectPosition.entityHit.setFire(2);
 				}
