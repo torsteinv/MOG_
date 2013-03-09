@@ -23,7 +23,7 @@ public class BlockMagicLight extends Block {
 
 	@Override
 	public int idDropped(int i, Random r, int i2) {
-		return mod_MOG.MagicpowderID;
+		return mod_MOG.MagicpowderID + 256;
 	}
 
 	@Override

@@ -63,7 +63,7 @@ public class EntityLightball extends EntitySpell {
 
 				if (this.worldObj.isAirBlock(var2, var3, var4)) {
 					this.worldObj.setBlockWithNotify(var2, var3, var4,
-							mod_MOG.GodstoneID);
+							mod_MOG.MagicLightID);
 				}
 			}
 

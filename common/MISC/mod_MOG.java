@@ -20,6 +20,7 @@ import org.lwjgl.opengl.GL12;
 
 import Blocks.BlockGodstone;
 import Blocks.BlockMagicCauldron;
+import Blocks.BlockMagicLight;
 import Blocks.BlockRuneFocus;
 import CreativeTabs.MachineTab;
 import CreativeTabs.RuneTab;
@@ -108,7 +109,7 @@ public class mod_MOG {
 		// Declare Blocks
 		Godstone = new BlockGodstone(GodstoneID, 0).setBlockName("Godstone")
 				.setHardness(1F).setResistance(5F).setLightValue(1F);
-		MagicLight = new BlockGodstone(MagicLightID, 0)
+		MagicLight = new BlockMagicLight(MagicLightID, 0)
 				.setBlockName("magicLight").setHardness(0.1F).setResistance(1F)
 				.setLightValue(2F);
 		MagicCauldron = new BlockMagicCauldron(MagicCauldronID)
@@ -163,10 +164,10 @@ public class mod_MOG {
 		}
 
 		// Register Blocks/Fuels/Generation
-		GameRegistry.registerBlock(Godstone, "MagicsOfGod");
-		GameRegistry.registerBlock(MagicCauldron, "MagicsOfGod");
-		GameRegistry.registerBlock(RuneFocus, "MagicsOfGod");
-		GameRegistry.registerBlock(MagicLight, "MagicsOfGod");
+		GameRegistry.registerBlock(Godstone, "MagicsOfGod-Godstone");
+		GameRegistry.registerBlock(MagicCauldron, "MagicsOfGod-MagicCauldron");
+		GameRegistry.registerBlock(RuneFocus, "MagicsOfGod-RuneFocus");
+		GameRegistry.registerBlock(MagicLight, "MagicsOfGod-MagicLight");
 		GameRegistry.registerTileEntity(TileEntityMagicCauldron.class,
 				"magicCauldronBlock");
 		GameRegistry.registerFuelHandler(new TutorialFuel());
@@ -344,7 +345,7 @@ public class mod_MOG {
 
 				});
 
-		RenderingRegistry.registerBlockHandler(MagicCauldronRenderingID,
+		RenderingRegistry.registerBlockHandler(MagicLightRenderingID,
 				new ISimpleBlockRenderingHandler() {
 
 					@Override
@@ -358,7 +359,6 @@ public class mod_MOG {
 							int y, int z, Block block, int modelId,
 							RenderBlocks renderer) {
 
-						renderer.renderStandardBlock(block, x, y, z);
 						Tessellator var5 = Tessellator.instance;
 						var5.setBrightness(block.getMixedBrightnessForBlock(
 								renderer.blockAccess, x, y, z));
@@ -382,18 +382,17 @@ public class mod_MOG {
 						var5.setColorOpaque_F(var6 * var8, var6 * var9, var6
 								* var10);
 						short var16 = 0;
-						renderer.renderSouthFace(block, x - 1.0F + var12, y, z,
+						float var17 = 0.45F;
+						renderer.renderSouthFace(block, x - 1.0F + var17, y, z,
 								var16);
-						renderer.renderNorthFace(block, x + 1.0F - var12, y, z,
+						renderer.renderNorthFace(block, x + 1.0F - var17, y, z,
 								var16);
-						renderer.renderWestFace(block, x, y, z - 1.0F + var12,
+						renderer.renderWestFace(block, x, y, z - 1.0F + var17,
 								var16);
-						renderer.renderEastFace(block, x, y, z + 1.0F - var12,
+						renderer.renderEastFace(block, x, y, z + 1.0F - var17,
 								var16);
-						renderer.renderTopFace(block, x, y - 1.0F + 0.25F, z,
-								var17);
-						renderer.renderBottomFace(block, x, y + 1.0F - 0.75F,
-								z, var17);
+						renderer.renderTopFace(block, x, y - var17, z, var16);
+						renderer.renderBottomFace(block, x, y + var17, z, var16);
 						return true;
 					}
 
