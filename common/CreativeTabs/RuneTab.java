@@ -1,7 +1,8 @@
 package CreativeTabs;
-import MISC.mod_MOG;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+import MISC.mod_MOG;
 
 public class RuneTab extends CreativeTabs {
 
@@ -11,7 +12,7 @@ public class RuneTab extends CreativeTabs {
 
 	@Override
 	public ItemStack getIconItemStack() {
-		return new ItemStack(mod_MOG.BasicRune);
+		return new ItemStack(mod_MOG.RuneItems.get(001));
 	}
 
 }
