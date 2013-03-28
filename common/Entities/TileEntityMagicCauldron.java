@@ -1,4 +1,4 @@
-package MISC;
+package Entities;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -10,6 +10,11 @@ public class TileEntityMagicCauldron extends TileEntity {
 	public void write(int element) {
 		el[iteration] = element;
 		iteration = iteration == 2 ? 0 : iteration + 1;
+	}
+
+	@Override
+	public void updateEntity() {
+		System.out.println(el);
 	}
 
 	@Override

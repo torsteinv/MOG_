@@ -144,6 +144,7 @@ public abstract class EntitySpell extends Entity {
 			}
 
 			Entity var4 = null;
+			@SuppressWarnings("rawtypes")
 			List var5 = this.worldObj.getEntitiesWithinAABBExcludingEntity(
 					this,
 					this.boundingBox.addCoord(this.motionX, this.motionY,

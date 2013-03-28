@@ -4,7 +4,6 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
@@ -13,7 +12,7 @@ import net.minecraft.world.World;
 import MISC.PotionEffects;
 import MISC.mod_MOG;
 
-public class Godsword extends ItemSword {
+public class Godsword extends PowerSword {
 
 	public Godsword(int itemID, EnumToolMaterial material) {
 		super(itemID, material);
@@ -81,22 +80,6 @@ public class Godsword extends ItemSword {
 		}
 		return super.onItemRightClick(par1ItemStack, par2World,
 				par3EntityPlayer);
-	}
-
-	public int takeMultiplePowder(int amount, EntityPlayer p) {
-		for (int i = 0; i < amount; i++) {
-			if (!takePowder(p)) {
-				return amount - i;
-			}
-		}
-		return -1;
-	}
-
-	public boolean takePowder(EntityPlayer p) {
-		if (p.capabilities.isCreativeMode) {
-			return true;
-		}
-		return p.inventory.consumeInventoryItem(mod_MOG.MagicpowderID + 256);
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import MISC.TileEntityMagicCauldron;
+import Entities.TileEntityMagicCauldron;
 import MISC.mod_MOG;
 
 public class Staff extends Item {

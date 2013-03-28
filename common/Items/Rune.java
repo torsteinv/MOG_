@@ -1,11 +1,10 @@
 package Items;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import MISC.TileEntityMagicCauldron;
+import Entities.TileEntityMagicCauldron;
 import MISC.mod_MOG;
 
 public class Rune extends Item {
@@ -18,34 +17,39 @@ public class Rune extends Item {
 	}
 
 	@Override
-	public boolean onItemUseFirst(ItemStack item, EntityPlayer player,
-			World world, int x, int y, int z, int side, float hitX, float hitY,
-			float hitZ) {
+	public boolean onItemUse(ItemStack item, EntityPlayer player, World world,
+			int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+		int clicked = world.getBlockId(x, y, z);
+		int metadata = world.getBlockMetadata(x, y, z);
+		if (world.isRemote) {
+			System.out.println("Registered 4");
+			return false;
+		}
 		if (!item.getItemName().endsWith(".none.none")) {
+			System.out.println("Registered 5");
+			return true;
+		}
+		if (!(world.getBlockTileEntity(x, y, z) instanceof TileEntityMagicCauldron)) {
+			System.out.println("Registered 6");
 			return true;
 		}
 		TileEntityMagicCauldron te = (TileEntityMagicCauldron) world
 				.getBlockTileEntity(x, y, z);
-		int clicked = world.getBlockId(x, y, z);
-		int metadata = world.getBlockMetadata(x, y, z);
+		System.out.println("Registered 3");
+
+		System.out.println("Registered 3");
 		String name = item.getItemName();
-		if (clicked == Block.cauldron.blockID && metadata == 3) {
-			world.setBlockAndMetadataWithNotify(x, y, z,
-					mod_MOG.MagicCauldronID, metadata);
-
-			return onItemUseFirst(item, player, world, x, y, z, side, hitX,
-					hitY, hitZ);
-
-		} else if (clicked == mod_MOG.MagicCauldronID && metadata == 3) {
+		if (clicked == mod_MOG.MagicCauldronID && metadata == 3) {
 
 			int aspectIndex = name.contains("fire") ? 1 : name
 					.contains("earth") ? 2 : name.contains("air") ? 3 : 4;
 			te.write(aspectIndex);
 
 			item.stackSize--;
-			world.notifyBlockChange(x, y, z, mod_MOG.MagicCauldronID);
+			world.setBlock(x, y, z, mod_MOG.MagicCauldronID);
+			System.out.println("Registered 2");
 		}
-		return false;
+		return true;
 	}
 
 	@Override

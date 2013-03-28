@@ -9,12 +9,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import MISC.TileEntityMagicCauldron;
+import Entities.TileEntityMagicCauldron;
 import MISC.mod_MOG;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -106,11 +108,12 @@ public class BlockMagicCauldron extends BlockContainer {
 			int par4, EntityPlayer par5EntityPlayer, int par6, float par7,
 			float par8, float par9) {
 		if (par1World.isRemote) {
-			return true;
+			return false;
 		} else {
 			ItemStack var10 = par5EntityPlayer.inventory.getCurrentItem();
 
 			if (var10 == null) {
+				System.out.println("Registered 1");
 				return true;
 			} else {
 				int var11 = par1World.getBlockMetadata(par2, par3, par4);
@@ -125,40 +128,48 @@ public class BlockMagicCauldron extends BlockContainer {
 						}
 
 						par1World.setBlockMetadata(par2, par3, par4, 3);
+						return false;
 					}
 
 					return true;
-				} else {
-					if (var10.itemID == Item.glassBottle.itemID) {
-						if (var11 > 0) {
-							ItemStack var12 = new ItemStack(Item.potion, 1, 0);
+				} else if (var10.itemID == Item.glassBottle.itemID) {
+					if (var11 > 0) {
+						ItemStack var12 = new ItemStack(Item.potion, 1, 0);
 
-							if (!par5EntityPlayer.inventory
-									.addItemStackToInventory(var12)) {
-								par1World.spawnEntityInWorld(new EntityItem(
-										par1World, par2 + 0.5D, par3 + 1.5D,
-										par4 + 0.5D, var12));
-							} else if (par5EntityPlayer instanceof EntityPlayerMP) {
-								((EntityPlayerMP) par5EntityPlayer)
-										.sendContainerToPlayer(par5EntityPlayer.inventoryContainer);
-							}
-
-							--var10.stackSize;
-
-							if (var10.stackSize <= 0) {
-								par5EntityPlayer.inventory
-										.setInventorySlotContents(
-												par5EntityPlayer.inventory.currentItem,
-												(ItemStack) null);
-							}
-
-							par1World.setBlockMetadataWithNotify(par2, par3,
-									par4, var11 - 1);
+						if (!par5EntityPlayer.inventory
+								.addItemStackToInventory(var12)) {
+							par1World.spawnEntityInWorld(new EntityItem(
+									par1World, par2 + 0.5D, par3 + 1.5D,
+									par4 + 0.5D, var12));
+						} else if (par5EntityPlayer instanceof EntityPlayerMP) {
+							((EntityPlayerMP) par5EntityPlayer)
+									.sendContainerToPlayer(par5EntityPlayer.inventoryContainer);
 						}
-					}
 
+						--var10.stackSize;
+
+						if (var10.stackSize <= 0) {
+							par5EntityPlayer.inventory
+									.setInventorySlotContents(
+											par5EntityPlayer.inventory.currentItem,
+											(ItemStack) null);
+						}
+
+						par1World.setBlockMetadataWithNotify(par2, par3, par4,
+								var11 - 1);
+					}
+				} else if (var11 > 0
+						&& var10.getItem() instanceof ItemArmor
+						&& ((ItemArmor) var10.getItem()).getArmorMaterial() == EnumArmorMaterial.CLOTH) {
+					ItemArmor var13 = (ItemArmor) var10.getItem();
+					var13.removeColor(var10);
+					par1World.setBlockMetadataWithNotify(par2, par3, par4,
+							var11 - 1);
 					return true;
 				}
+
+				return true;
+
 			}
 		}
 	}
@@ -173,10 +184,11 @@ public class BlockMagicCauldron extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	/**
-	 * only called by clickMiddleMouseButton , and passed to inventory.setCurrentItem (along with isCreative)
+	 * only called by clickMiddleMouseButton , and passed to
+	inventory.setCurrentItem (along with isCreative)
 	 */
 	public int idPicked(World par1World, int par2, int par3, int par4) {
-		return Item.cauldron.itemID;
+		return mod_MOG.MagicCauldronID;
 	}
 
 	@Override

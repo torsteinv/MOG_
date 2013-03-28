@@ -2,13 +2,12 @@ package Items;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityLargeFireball;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import MISC.mod_MOG;
 
-public class StaffExplosion extends Item {
+public class StaffExplosion extends PowerItem {
 
 	public StaffExplosion(int par1) {
 		super(par1);
@@ -23,7 +22,7 @@ public class StaffExplosion extends Item {
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world,
 			EntityPlayer player) {
-		if (takePowder(player)) {
+		if (!world.isRemote && takePowder(player)) {
 			EntityLargeFireball fb = new EntityLargeFireball(world, player, 1,
 					1, 1);
 			Vec3 look = player.getLookVec();
@@ -35,21 +34,5 @@ public class StaffExplosion extends Item {
 			world.spawnEntityInWorld(fb);
 		}
 		return itemStack;
-	}
-
-	public int takeMultiplePowder(int amount, EntityPlayer p) {
-		for (int i = 0; i < amount; i++) {
-			if (!takePowder(p)) {
-				return amount - i;
-			}
-		}
-		return -1;
-	}
-
-	public boolean takePowder(EntityPlayer p) {
-		if (p.capabilities.isCreativeMode) {
-			return true;
-		}
-		return p.inventory.consumeInventoryItem(mod_MOG.MagicpowderID + 256);
 	}
 }

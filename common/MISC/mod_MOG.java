@@ -26,6 +26,9 @@ import CreativeTabs.MachineTab;
 import CreativeTabs.RuneTab;
 import CreativeTabs.StaffTab;
 import Entities.EntitySpell;
+import Entities.TileEntityMagicCauldron;
+import Entities.TileEntityRuneFocus;
+import GUI.GuiHandler;
 import Items.Godsword;
 import Items.Magicpowder;
 import Items.Rune;
@@ -43,11 +46,19 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.network.NetworkMod.SidedPacketHandler;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(modid = "MagicsOfGod", name = "Magics of God", version = "1.0.0")
-@NetworkMod(clientSideRequired = true, serverSideRequired = false)
+@NetworkMod(clientSideRequired = true, serverSideRequired = false,
+		clientPacketHandlerSpec = @SidedPacketHandler(
+				channels = { "MagicsOfGod" },
+				packetHandler = ClientPacketHandler.class),
+		serverPacketHandlerSpec = @SidedPacketHandler(
+				channels = { "MagicsOfGod" },
+				packetHandler = ServerPacketHandler.class))
 public class mod_MOG {
 
 	public static int EntityLightballID = 1;
@@ -89,10 +100,13 @@ public class mod_MOG {
 	@Instance
 	public static mod_MOG instance = new mod_MOG();
 
+	public static GuiHandler guiHandler = new GuiHandler();
+
 	public static HashMap<String, String> RuneKeys = new HashMap<String, String>();
 	public static HashMap<Integer, Item> RuneItems = new HashMap<Integer, Item>();
 
-	@SidedProxy(clientSide = "MISC.ClientProxyTutorial", serverSide = "MISC.CommonProxyTutorial")
+	@SidedProxy(clientSide = "MISC.ClientProxyTutorial",
+			serverSide = "MISC.CommonProxyTutorial")
 	public static ClientProxyTutorial proxy = new ClientProxyTutorial();
 
 	// Materials
@@ -169,7 +183,8 @@ public class mod_MOG {
 		GameRegistry.registerBlock(RuneFocus, "MagicsOfGod-RuneFocus");
 		GameRegistry.registerBlock(MagicLight, "MagicsOfGod-MagicLight");
 		GameRegistry.registerTileEntity(TileEntityMagicCauldron.class,
-				"magicCauldronBlock");
+				"magicCauldron");
+		GameRegistry.registerTileEntity(TileEntityRuneFocus.class, "runeFocus");
 		GameRegistry.registerFuelHandler(new TutorialFuel());
 		GameRegistry.registerWorldGenerator(new WorldGeneratorTutorial());
 
@@ -410,6 +425,7 @@ public class mod_MOG {
 
 		// Smelting recipe
 
+		NetworkRegistry.instance().registerGuiHandler(this, guiHandler);
 		// Texture registering
 		proxy.registerRenderThings();
 	}
